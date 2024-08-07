@@ -1,8 +1,8 @@
 ﻿using Core.DTOs;
 
-namespace Business.Interfaces;
+namespace Business.Services.Interfaces;
 
-public interface IRegistrationService
+public interface IUserService
 {
     public RegisterUserResponseDto Register(RegisterUserRequestDto registerUserRequestDto);
 }
