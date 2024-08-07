@@ -1,10 +1,13 @@
-﻿using Core.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using Core.Enums;
 
 namespace Infrastructure.Entities;
 
 public class User : Person
 {
-    public required string PasswordHash { get; set; }
+    [Required] 
+    public string PasswordHash { get; set; } = string.Empty;
     
-    public required UserRole Role { get; set; }
+    [Required]
+    public UserRole Role { get; set; }
 }

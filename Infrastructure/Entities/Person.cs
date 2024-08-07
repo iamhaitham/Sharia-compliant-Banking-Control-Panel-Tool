@@ -5,17 +5,23 @@ namespace Infrastructure.Entities;
 
 public class Person : BaseEntity
 {
+    [Required]
     [MaxLength(59)]
-    public required string FirstName { get; set; }
+    public string FirstName { get; set; } = string.Empty;
 
+    [Required]
     [MaxLength(59)]
-    public required string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
     
-    public required string Email { get; set; }
+    [Required]
+    public string Email { get; set; } = string.Empty;
     
-    public required string MobileNumber { get; set; } 
+    [Required]
+    public string MobileNumber { get; set; } = string.Empty; 
     
-    public required string PersonalId { get; set; }
+    [Required]
+    public string PersonalId { get; set; } = string.Empty;
     
-    public required Sex Sex { get; set; }
+    [Required]
+    public Sex Sex { get; set; }
 }

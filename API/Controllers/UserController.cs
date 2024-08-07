@@ -20,6 +20,7 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<ActionResult<RegisterUserResponseDto>> Register(RegisterUserRequestDto registerUserRequestDto)
     {
         if (!ModelState.IsValid)
@@ -35,5 +36,25 @@ public class UserController : ControllerBase
         }
         
         return Ok(registerUserResponseDto);
+    }
+
+    [HttpPost("login")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    public async Task<ActionResult> Login(LoginUserRequestDto loginUserRequestDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+        
+        var loginUserResponse = await _userService.Login(loginUserRequestDto);
+
+        if (loginUserResponse is null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(loginUserResponse);
     }
 }

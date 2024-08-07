@@ -3,7 +3,7 @@ using Infrastructure.Entities;
 
 namespace Business.Services;
 
-public class MapperService
+public static class MapperService
 {
     public static RegisterUserRequestDto MapMapRegisterUserRequestDtoToACopy(RegisterUserRequestDto registerUserRequestDto)
     {

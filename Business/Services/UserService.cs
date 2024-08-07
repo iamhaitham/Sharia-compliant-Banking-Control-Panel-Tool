@@ -22,11 +22,13 @@ public class UserService : IUserService
 
     public async Task<RegisterUserResponseDto?> Register(RegisterUserRequestDto registerUserRequestDto)
     {
+        // Replace the plain password with a hashed one to store it in the database
         var updatedDto = MapperService.MapMapRegisterUserRequestDtoToACopy(registerUserRequestDto);
         updatedDto.Password = BCrypt.Net.BCrypt.HashPassword(registerUserRequestDto.Password);
-
+        
         var user = MapperService.MapRegisterUserRequestDtoToUser(updatedDto);
 
+        // If user is unique proceed with the registration. Otherwise, return null
         if (!await _userValidator.IsUserUnique(user))
         {
             Console.WriteLine(
@@ -39,6 +41,7 @@ public class UserService : IUserService
             return null;
         }
 
+        // Create the user and return the representing object. If an exception is throw, log it.
         try
         {
             await _userRepository.Create(user);
@@ -51,4 +54,17 @@ public class UserService : IUserService
             throw;
         }
     }
+
+    public async Task<LoginUserResponseDto?> Login(LoginUserRequestDto loginUserRequestDto)
+    {
+        // If user's data did not match with the ones in the database, return null. Otherwise, proceed with the login.
+        var canUserBeAuthenticated = await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
+        
+        if (!canUserBeAuthenticated)
+        {
+            return null;
+        }
+
+        return new LoginUserResponseDto();
+    } 
 }
