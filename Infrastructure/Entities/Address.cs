@@ -2,6 +2,8 @@
 
 public class Address : BaseEntity
 {
+    public ICollection<Client> Clients { get; set; } = new List<Client>();
+
     public string Country { get; set; } = string.Empty;
     
     public string City { get; set; } = string.Empty;
