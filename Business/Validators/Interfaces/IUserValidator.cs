@@ -7,5 +7,5 @@ public interface IUserValidator
 {
     public Task<bool> IsUserUnique(User user);
 
-    public Task<bool> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto);
+    public Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto);
 }

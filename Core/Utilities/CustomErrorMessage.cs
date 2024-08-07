@@ -25,4 +25,10 @@ public static class CustomErrorMessage
 
     public static string DuplicatedEntry() =>
         "Record was not created (duplicated entry)";
+    
+    public static string UserDoesNotExist(string email) =>
+        $"User with email '{email}' does not exist";
+
+    public static string UserInfoDidNotMatch() =>
+        "User information did not match";
 }

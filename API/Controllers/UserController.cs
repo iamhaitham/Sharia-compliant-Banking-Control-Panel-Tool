@@ -40,21 +40,26 @@ public class UserController : ControllerBase
 
     [HttpPost("login")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    public async Task<ActionResult> Login(LoginUserRequestDto loginUserRequestDto)
+    public async Task<ActionResult<ResponseDto<LoginUserResponseDto>>> Login(LoginUserRequestDto loginUserRequestDto)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return BadRequest(new ResponseDto<LoginUserResponseDto>()
+            {
+                Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList(),
+                IsSuccessful = false
+            });
         }
         
-        var loginUserResponse = await _userService.Login(loginUserRequestDto);
+        var responseDto = await _userService.Login(loginUserRequestDto);
 
-        if (loginUserResponse is null)
+        if (!responseDto.IsSuccessful)
         {
-            return Unauthorized();
+            return Unauthorized(responseDto);
         }
 
-        return Ok(loginUserResponse);
+        return Ok(responseDto);
     }
 }

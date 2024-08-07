@@ -1,5 +1,6 @@
 ﻿using Business.Validators.Interfaces;
 using Core.DTOs;
+using Core.Utilities;
 using Infrastructure.Entities;
 using Infrastructure.Repositories.Interfaces;
 
@@ -19,16 +20,40 @@ public class UserValidator : IUserValidator
         return await _userRepository.GetByFilter(u => u.PersonalId == user.PersonalId) == null;
     }
 
-    public async Task<bool> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)
+    public async Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)
     {
         var realUser = await _userRepository.GetByFilter(u => u.Email == loginUserRequestDto.Email);
 
         // If no user exists with the same email address, then there is nothing to check and the user cannot be authenticated.
         if (realUser is null)
         {
-            return false;
+            return new ResponseDto<LoginUserResponseDto>()
+            {
+                Errors = new List<string>()
+                {
+                    CustomErrorMessage.UserDoesNotExist(loginUserRequestDto.Email)
+                },
+                IsSuccessful = false
+            };
         }
         
-        return BCrypt.Net.BCrypt.Verify(loginUserRequestDto.Password, realUser.PasswordHash);
+        // If user exists, check whether the hash of the password they entered matches with the hashed one in the database.
+        if (!BCrypt.Net.BCrypt.Verify(loginUserRequestDto.Password, realUser.PasswordHash))
+        {
+            return new ResponseDto<LoginUserResponseDto>()
+            {
+                Errors = new List<string>()
+                {
+                    CustomErrorMessage.UserInfoDidNotMatch()
+                },
+                IsSuccessful = false
+            };
+        }
+        
+        return new ResponseDto<LoginUserResponseDto>()
+        {
+            Body = new LoginUserResponseDto(),
+            IsSuccessful = true
+        };
     }
 }

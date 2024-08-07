@@ -55,16 +55,8 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<LoginUserResponseDto?> Login(LoginUserRequestDto loginUserRequestDto)
+    public async Task<ResponseDto<LoginUserResponseDto>> Login(LoginUserRequestDto loginUserRequestDto)
     {
-        // If user's data did not match with the ones in the database, return null. Otherwise, proceed with the login.
-        var canUserBeAuthenticated = await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
-        
-        if (!canUserBeAuthenticated)
-        {
-            return null;
-        }
-
-        return new LoginUserResponseDto();
+        return await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
     } 
 }

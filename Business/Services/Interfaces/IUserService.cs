@@ -6,5 +6,5 @@ public interface IUserService
 {
     public Task<RegisterUserResponseDto?> Register(RegisterUserRequestDto registerUserRequestDto);
     
-    public Task<LoginUserResponseDto?> Login(LoginUserRequestDto loginUserRequestDto);
+    public Task<ResponseDto<LoginUserResponseDto>> Login(LoginUserRequestDto loginUserRequestDto);
 }
