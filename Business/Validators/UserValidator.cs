@@ -22,10 +22,10 @@ public class UserValidator : IUserValidator
 
     public async Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)
     {
-        var realUser = await _userRepository.GetByFilter(u => u.Email == loginUserRequestDto.Email);
+        var userFromDatabase = await _userRepository.GetByFilter(u => u.Email == loginUserRequestDto.Email);
 
         // If no user exists with the same email address, then there is nothing to check and the user cannot be authenticated.
-        if (realUser is null)
+        if (userFromDatabase is null)
         {
             return new ResponseDto<LoginUserResponseDto>()
             {
@@ -38,7 +38,7 @@ public class UserValidator : IUserValidator
         }
         
         // If user exists, check whether the hash of the password they entered matches with the hashed one in the database.
-        if (!BCrypt.Net.BCrypt.Verify(loginUserRequestDto.Password, realUser.PasswordHash))
+        if (!BCrypt.Net.BCrypt.Verify(loginUserRequestDto.Password, userFromDatabase.PasswordHash))
         {
             return new ResponseDto<LoginUserResponseDto>()
             {
