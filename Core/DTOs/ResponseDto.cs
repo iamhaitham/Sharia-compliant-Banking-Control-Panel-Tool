@@ -1,4 +1,6 @@
-﻿namespace Core.DTOs;
+﻿using System.Net;
+
+namespace Core.DTOs;
 
 public class ResponseDto<T> 
 {
@@ -7,4 +9,6 @@ public class ResponseDto<T>
     public bool IsSuccessful { get; set; }
 
     public List<string>? Errors { get; set; }
+    
+    public HttpStatusCode? HttpCode { get; set; }
 }

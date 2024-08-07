@@ -1,7 +1,7 @@
-﻿using Business.Services.Interfaces;
+﻿using System.Net;
+using Business.Services.Interfaces;
 using Business.Validators.Interfaces;
 using Core.DTOs;
-using Core.Utilities;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Business.Services;
@@ -20,38 +20,48 @@ public class UserService : IUserService
         _userValidator = userValidator;
     }
 
-    public async Task<RegisterUserResponseDto?> Register(RegisterUserRequestDto registerUserRequestDto)
+    /// <summary>
+    /// Checks whether a user exists in the database.
+    /// <br/>
+    /// If yes, stop the process.
+    /// <br/>
+    /// If no, register the user.
+    /// </summary>
+    /// <param name="registerUserRequestDto">The DTO representing the data for registering a user.</param>
+    /// <returns>A <see cref="RegisterUserResponseDto">RegisterUserResponseDto</see> wrapped in a <see cref="RegisterUserResponseDto">ResponseDto</see></returns>
+    public async Task<ResponseDto<RegisterUserResponseDto>> Register(RegisterUserRequestDto registerUserRequestDto)
     {
-        // Replace the plain password with a hashed one to store it in the database
-        var updatedDto = MapperService.MapMapRegisterUserRequestDtoToACopy(registerUserRequestDto);
-        updatedDto.Password = BCrypt.Net.BCrypt.HashPassword(registerUserRequestDto.Password);
-        
-        var user = MapperService.MapRegisterUserRequestDtoToUser(updatedDto);
-
-        // If user is unique proceed with the registration. Otherwise, return null
-        if (!await _userValidator.IsUserUnique(user))
+        var isUserUniqueResponse = await _userValidator.IsUserUnique(registerUserRequestDto);
+        if (!isUserUniqueResponse.IsSuccessful)
         {
-            Console.WriteLine(
-                CustomErrorMessage.UserAlreadyExists(
-                    $"{user.FirstName} {user.LastName}",
-                    user.PersonalId
-                )
-            );
-
-            return null;
+            return isUserUniqueResponse;
         }
 
-        // Create the user and return the representing object. If an exception is throw, log it.
+        var updatedDto = MapperService.MapMapRegisterUserRequestDtoToACopy(registerUserRequestDto);
+        updatedDto.Password = BCrypt.Net.BCrypt.HashPassword(registerUserRequestDto.Password);
+        var user = MapperService.MapRegisterUserRequestDtoToUser(updatedDto);
+
         try
         {
             await _userRepository.Create(user);
             
-            return MapperService.MapUserToRegisterUserResponseDto(user) ;
+            return new ResponseDto<RegisterUserResponseDto>()
+            {
+                Body = MapperService.MapUserToRegisterUserResponseDto(user),
+                IsSuccessful = true
+            };
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            throw;
+            return new ResponseDto<RegisterUserResponseDto>()
+            {
+                Errors = new List<string>()
+                {
+                    ex.Message
+                },
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.InternalServerError
+            };
         }
     }
 

@@ -15,9 +15,49 @@ public class UserValidator : IUserValidator
         _userRepository = userRepository;
     }
 
-    public async Task<bool> IsUserUnique(User user)
+    public async Task<ResponseDto<RegisterUserResponseDto>> IsUserUnique(RegisterUserRequestDto registerUserRequestDto)
     {
-        return await _userRepository.GetByFilter(u => u.PersonalId == user.PersonalId) == null;
+        User? userFromDatabase;
+        try
+        {
+            userFromDatabase =
+                await _userRepository.GetByFilter(u => u.PersonalId == registerUserRequestDto.PersonalId);
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<RegisterUserResponseDto>()
+            {
+                Errors = new List<string>()
+                {
+                    ex.Message
+                },
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.InternalServerError
+            };
+        }
+
+        var isUserUnique = userFromDatabase == null;
+
+        if (!isUserUnique)
+        {
+            return new ResponseDto<RegisterUserResponseDto>()
+            {
+                Errors = new List<string>()
+                {
+                    CustomErrorMessage.UserAlreadyExists(
+                        $"{registerUserRequestDto.FirstName} {registerUserRequestDto.LastName}",
+                        registerUserRequestDto.PersonalId
+                    )
+                },
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.Conflict
+            };
+        }
+
+        return new ResponseDto<RegisterUserResponseDto>()
+        {
+            IsSuccessful = true
+        };
     }
 
     public async Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)

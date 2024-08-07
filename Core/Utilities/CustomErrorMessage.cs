@@ -22,9 +22,6 @@ public static class CustomErrorMessage
 
     public static string UserAlreadyExists(string userName, string personalId) =>
         $"User {userName} with personal id {personalId} already exists";
-
-    public static string DuplicatedEntry() =>
-        "Record was not created (duplicated entry)";
     
     public static string UserDoesNotExist(string email) =>
         $"User with email '{email}' does not exist";

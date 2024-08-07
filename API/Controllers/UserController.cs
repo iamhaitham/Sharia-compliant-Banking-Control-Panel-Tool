@@ -21,21 +21,25 @@ public class UserController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<RegisterUserResponseDto>> Register(RegisterUserRequestDto registerUserRequestDto)
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<ResponseDto<RegisterUserResponseDto>>> Register(RegisterUserRequestDto registerUserRequestDto)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest();
         }
 
-        var registerUserResponseDto = await _userService.Register(registerUserRequestDto);
+        var responseDto = await _userService.Register(registerUserRequestDto);
 
-        if (registerUserResponseDto is null)
+        switch (responseDto.HttpCode)
         {
-            return Conflict(CustomErrorMessage.DuplicatedEntry());
+            case HttpStatusCode.Conflict:
+                return Conflict(responseDto);
+            case HttpStatusCode.InternalServerError:
+                return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
+            default:
+                return Ok(responseDto);
         }
-        
-        return Ok(registerUserResponseDto);
     }
 
     [HttpPost("login")]
