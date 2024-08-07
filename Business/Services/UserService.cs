@@ -65,6 +65,11 @@ public class UserService : IUserService
         }
     }
 
+    /// <summary>
+    /// Authenticates a user if possible.
+    /// </summary>
+    /// <param name="loginUserRequestDto">The DTO representing the data for logging a user in.</param>
+    /// <returns>A <see cref="LoginUserResponseDto">LoginUserResponseDto</see> wrapped in a <see cref="RegisterUserResponseDto">ResponseDto</see></returns>
     public async Task<ResponseDto<LoginUserResponseDto>> Login(LoginUserRequestDto loginUserRequestDto)
     {
         return await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
