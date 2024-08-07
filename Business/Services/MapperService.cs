@@ -31,7 +31,8 @@ public class MapperService
             FirstName = registerUserRequestDto.FirstName,
             LastName = registerUserRequestDto.LastName,
             MobileNumber = registerUserRequestDto.MobileNumber.Number,
-            PersonalId = registerUserRequestDto.PersonalId
+            PersonalId = registerUserRequestDto.PersonalId,
+            CreatedOn = DateTimeOffset.Now
         };
     }
 
