@@ -1,4 +1,5 @@
-﻿using Infrastructure.Entities;
+﻿using System.Linq.Expressions;
+using Infrastructure.Entities;
 using Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,5 +20,10 @@ public class UserRepository : IUserRepository
     {
         await _dbSet.AddAsync(user);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<User?> GetByFilter(Expression<Func<User, bool>> filter)
+    {
+        return await _dbSet.FirstOrDefaultAsync(filter);
     }
 }

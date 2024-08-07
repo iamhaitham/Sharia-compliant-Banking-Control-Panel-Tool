@@ -1,6 +1,7 @@
 using System.Net;
 using Business.Services.Interfaces;
 using Core.DTOs;
+using Core.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -28,6 +29,11 @@ public class UserController : ControllerBase
 
         var registerUserResponseDto = await _userService.Register(registerUserRequestDto);
 
+        if (registerUserResponseDto is null)
+        {
+            return Conflict(CustomErrorMessage.DuplicatedEntry());
+        }
+        
         return Ok(registerUserResponseDto);
     }
 }

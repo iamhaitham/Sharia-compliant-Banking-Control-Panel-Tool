@@ -19,4 +19,10 @@ public static class CustomErrorMessage
 
     public static string CannotBeNull(string propertyName) =>
         $"{propertyName} cannot be null";
+
+    public static string UserAlreadyExists(string userName, string personalId) =>
+        $"User {userName} with personal id {personalId} already exists";
+
+    public static string DuplicatedEntry() =>
+        "Record was not created (duplicated entry)";
 }
