@@ -13,7 +13,7 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public RegisterUserResponseDto Register(RegisterUserRequestDto registerUserRequestDto)
+    public async Task<RegisterUserResponseDto> Register(RegisterUserRequestDto registerUserRequestDto)
     {
         var updatedDto = MapperService.MapMapRegisterUserRequestDtoToACopy(registerUserRequestDto);
         updatedDto.Password = BCrypt.Net.BCrypt.HashPassword(registerUserRequestDto.Password);
@@ -22,7 +22,7 @@ public class UserService : IUserService
 
         try
         {
-            _userRepository.Create(user);
+            await _userRepository.Create(user);
             
             return MapperService.MapUserToRegisterUserResponseDto(user) ;
         }
