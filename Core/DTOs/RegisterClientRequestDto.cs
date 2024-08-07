@@ -1,4 +1,6 @@
-﻿namespace Core.DTOs;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Core.DTOs;
 
 public class RegisterClientRequestDto : RegisterPersonRequestDto
 {
@@ -6,5 +8,6 @@ public class RegisterClientRequestDto : RegisterPersonRequestDto
 
     public AddressDto Address { get; set; } = new();
     
+    [MinLength(1)]
     public required List<string> Accounts { get; set; }
 }
