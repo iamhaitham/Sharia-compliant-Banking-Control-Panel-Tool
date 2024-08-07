@@ -10,7 +10,7 @@ public class RegisterPersonRequestDto
     
     public required string Email { get; set; }
     
-    public required string MobileNumber { get; set; } 
+    public required MobileNumberDto MobileNumber { get; set; } 
     
     public required string PersonalId { get; set; }
     
