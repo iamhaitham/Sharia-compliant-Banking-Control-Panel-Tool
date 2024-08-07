@@ -1,9 +1,7 @@
 ﻿namespace Infrastructure.Entities;
 
-public class Address
+public class Address : BaseEntity
 {
-    public int Id { get; set; }
-
     public string Country { get; set; } = string.Empty;
     
     public string City { get; set; } = string.Empty;
