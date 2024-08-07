@@ -20,8 +20,12 @@ public static class CustomErrorMessage
     public static string CannotBeNull(string propertyName) =>
         $"{propertyName} cannot be null";
 
-    public static string UserAlreadyExists(string userName, string personalId) =>
-        $"User {userName} with personal id {personalId} already exists";
+    public static string UserAlreadyExists(
+        string personalId,
+        string email,
+        string mobileNumber
+    ) =>
+        $"A user with a similar personal id '{personalId}', email '{email}', or mobile number '{mobileNumber}' already exists. All these values must be unique for each user.";
     
     public static string UserDoesNotExist(string email) =>
         $"User with email '{email}' does not exist";

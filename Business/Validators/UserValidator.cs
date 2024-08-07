@@ -21,8 +21,11 @@ public class UserValidator : IUserValidator
         User? userFromDatabase;
         try
         {
-            userFromDatabase =
-                await _userRepository.GetByFilter(u => u.PersonalId == registerUserRequestDto.PersonalId);
+            userFromDatabase = await _userRepository.GetByFilter(u =>
+                    u.PersonalId == registerUserRequestDto.PersonalId 
+                    || u.Email == registerUserRequestDto.Email
+                    || u.MobileNumber == registerUserRequestDto.MobileNumber.Number
+                );
         }
         catch (Exception ex)
         {
@@ -46,8 +49,9 @@ public class UserValidator : IUserValidator
                 Errors = new List<string>()
                 {
                     CustomErrorMessage.UserAlreadyExists(
-                        $"{registerUserRequestDto.FirstName} {registerUserRequestDto.LastName}",
-                        registerUserRequestDto.PersonalId
+                        registerUserRequestDto.PersonalId,
+                        registerUserRequestDto.Email,
+                        registerUserRequestDto.MobileNumber.Number
                     )
                 },
                 IsSuccessful = false,
