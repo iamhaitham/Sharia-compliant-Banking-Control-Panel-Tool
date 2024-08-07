@@ -1,6 +1,10 @@
 using System.Text.Json.Serialization;
+using Business.Services;
+using Business.Services.Interfaces;
 using Business.Validators;
 using Core.Interfaces;
+using Infrastructure.Repositories;
+using Infrastructure.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,8 @@ builder.Services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddScoped<IMobileNumberValidator, MobileNumberValidator>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
