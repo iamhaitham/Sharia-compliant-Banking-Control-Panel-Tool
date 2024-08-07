@@ -1,4 +1,5 @@
-﻿using Business.Validators.Interfaces;
+﻿using System.Net;
+using Business.Validators.Interfaces;
 using Core.DTOs;
 using Core.Utilities;
 using Infrastructure.Entities;
@@ -62,7 +63,24 @@ public class UserValidator : IUserValidator
 
     public async Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)
     {
-        var userFromDatabase = await _userRepository.GetByFilter(u => u.Email == loginUserRequestDto.Email);
+        User? userFromDatabase;
+
+        try
+        {
+            userFromDatabase = await _userRepository.GetByFilter(u => u.Email == loginUserRequestDto.Email);
+        }
+        catch (Exception ex)
+        {
+            return new ResponseDto<LoginUserResponseDto>()
+            {
+                Errors = new List<string>()
+                {
+                    ex.Message
+                },
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.InternalServerError
+            };
+        }
 
         // If no user exists with the same email address, then there is nothing to check and the user cannot be authenticated.
         if (userFromDatabase is null)
@@ -73,7 +91,8 @@ public class UserValidator : IUserValidator
                 {
                     CustomErrorMessage.UserDoesNotExist(loginUserRequestDto.Email)
                 },
-                IsSuccessful = false
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.NotFound
             };
         }
         
@@ -86,7 +105,8 @@ public class UserValidator : IUserValidator
                 {
                     CustomErrorMessage.UserInfoDidNotMatch()
                 },
-                IsSuccessful = false
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.Unauthorized
             };
         }
         

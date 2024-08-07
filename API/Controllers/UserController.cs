@@ -46,24 +46,27 @@ public class UserController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<ResponseDto<LoginUserResponseDto>>> Login(LoginUserRequestDto loginUserRequestDto)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(new ResponseDto<LoginUserResponseDto>()
-            {
-                Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList(),
-                IsSuccessful = false
-            });
+            return BadRequest();
         }
         
         var responseDto = await _userService.Login(loginUserRequestDto);
 
-        if (!responseDto.IsSuccessful)
+        switch (responseDto.HttpCode)
         {
-            return Unauthorized(responseDto);
+            case HttpStatusCode.Unauthorized:
+                return Unauthorized(responseDto);
+            case HttpStatusCode.NotFound:
+                return NotFound(responseDto);
+            case HttpStatusCode.InternalServerError:
+                return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
+            default:
+                return Ok(responseDto);
         }
-
-        return Ok(responseDto);
     }
 }
