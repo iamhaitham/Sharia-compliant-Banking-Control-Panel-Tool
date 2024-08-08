@@ -101,9 +101,11 @@ public class ClientService : IClientService
     {
         try
         {
+            // Pass the QueryClientResponseDto to IClientRepository to do the needed filtration logic. 
             var clients = await _clientRepository.Query(queryClientRequestDto);
             var result = new List<QueryClientResponseDto>();
 
+            // Map all returned clients to QueryClientResponseDto.
             foreach (var c in clients)
             {
                 result.Add(MapperService.MapClientToQueryClientResponseDto(c));

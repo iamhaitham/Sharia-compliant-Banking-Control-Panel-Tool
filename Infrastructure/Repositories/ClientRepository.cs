@@ -28,6 +28,13 @@ public class ClientRepository : IClientRepository
         return await _dbSet.FirstOrDefaultAsync(filter);
     }
 
+    /// <summary>
+    /// Get the "Client" table, and include the "Address" entity as well.
+    /// Start finding the applied filters, and add them to the overall filter query.
+    /// Once done, executed the query. 
+    /// </summary>
+    /// <param name="queryClientRequestDto">The query client request dto.</param>
+    /// <returns>A list of the clients that satisfy the conditions of the query.</returns>
     public async Task<List<Client>> Query(QueryClientRequestDto queryClientRequestDto)
     {
         IQueryable<Client> query = _dbSet.Include(c => c.Address);
