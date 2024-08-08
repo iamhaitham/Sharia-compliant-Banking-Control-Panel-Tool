@@ -18,5 +18,6 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddScoped<IMobileNumberValidator, MobileNumberValidator>();
         serviceCollection.AddScoped<IUserValidator, UserValidator>();
         serviceCollection.AddScoped<IClientValidator, ClientValidator>();
+        serviceCollection.AddScoped<IAddressValidator, AddressValidator>();
     }
 }
