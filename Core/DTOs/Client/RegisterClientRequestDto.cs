@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Core.DTOs.Address;
+using Core.DTOs.Person;
 
-namespace Core.DTOs;
+namespace Core.DTOs.Client;
 
 public class RegisterClientRequestDto : RegisterPersonRequestDto
 {

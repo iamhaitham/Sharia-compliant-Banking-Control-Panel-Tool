@@ -1,6 +1,7 @@
-﻿using Core.Enums;
+﻿using Core.DTOs.Person;
+using Core.Enums;
 
-namespace Core.DTOs;
+namespace Core.DTOs.User;
 
 public class RegisterUserRequestDto : RegisterPersonRequestDto
 {

@@ -1,6 +1,6 @@
 using System.Net;
 using Business.Services.Interfaces;
-using Core.DTOs;
+using Core.DTOs.User;
 using Core.Utilities;
 using Microsoft.AspNetCore.Mvc;
 

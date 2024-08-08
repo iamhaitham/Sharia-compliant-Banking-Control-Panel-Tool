@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Business.Validators.Interfaces;
-using Core.DTOs;
+using Core.DTOs.Client;
 using Core.Utilities;
 using Infrastructure.Entities;
 using Infrastructure.Repositories.Interfaces;

@@ -1,4 +1,4 @@
-﻿using Core.DTOs;
+﻿using Core.DTOs.Client;
 
 namespace Business.Validators.Interfaces;
 

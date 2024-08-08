@@ -1,4 +1,4 @@
-﻿using Core.DTOs;
+﻿using Core.DTOs.Address;
 using Infrastructure.Entities;
 
 namespace Business.Validators.Interfaces;

@@ -1,4 +1,4 @@
-﻿using Core.DTOs;
+﻿using Core.DTOs.MobileNumber;
 using Core.Interfaces;
 using PhoneNumbers;
 

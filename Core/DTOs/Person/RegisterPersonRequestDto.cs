@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Core.CustomAttributes;
+using Core.DTOs.MobileNumber;
 using Core.Enums;
 
-namespace Core.DTOs;
+namespace Core.DTOs.Person;
 
 public class RegisterPersonRequestDto
 {

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Core.DTOs;
+using Core.DTOs.MobileNumber;
 using Core.Interfaces;
 using Core.Utilities;
 

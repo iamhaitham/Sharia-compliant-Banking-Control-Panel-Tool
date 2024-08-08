@@ -1,4 +1,4 @@
-﻿namespace Core.DTOs;
+﻿namespace Core.DTOs.Address;
 
 public class AddressDto
 {
