@@ -124,7 +124,7 @@ public static class MapperService
             var staticImagesPath = $"{rootPathOfApp}/{staticImagesDirectoryName}";
 
             // A new name for the image that will now be stored locally.
-            var imageNameWithExtensions = $"{Guid.NewGuid()}.{Path.GetExtension(profilePhoto.FileName)}";
+            var imageNameWithExtensions = $"{Guid.NewGuid()}{Path.GetExtension(profilePhoto.FileName)}";
 
             // If the directory exists, do nothing. Otherwise, create it.
             Directory.CreateDirectory(staticImagesPath);
