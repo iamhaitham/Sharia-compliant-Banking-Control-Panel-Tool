@@ -9,22 +9,26 @@ namespace Business.Services;
 
 public class ClientService : IClientService
 {
+    private static readonly string SuggestionsCacheKey = "suggestions";
     private readonly IClientRepository _clientRepository;
     private readonly IClientValidator _clientValidator;
     private readonly IAddressRepository _addressRepository;
     private readonly IAddressValidator _addressValidator;
+    private readonly ICacheRepository _cacheRepository;
 
     public ClientService(
         IClientRepository clientRepository,
         IClientValidator clientValidator,
         IAddressRepository addressRepository,
-        IAddressValidator addressValidator
+        IAddressValidator addressValidator,
+        ICacheRepository cacheRepository
     )
     {
         _clientRepository = clientRepository;
         _clientValidator = clientValidator;
         _addressRepository = addressRepository;
         _addressValidator = addressValidator;
+        _cacheRepository = cacheRepository;
     }
 
     public async Task<GenericResponse<RegisterClientResponseDto>> Register(
@@ -126,5 +130,30 @@ public class ClientService : IClientService
                 HttpCode = HttpStatusCode.InternalServerError
             };
         }
+        finally
+        {
+            // Retrieve the suggestions, and check their number.
+            // If they exceed 3, then remove the oldest value, and append the newest one.
+            // The cache will then be updated regardless of the suggestions' size. 
+            var cachedSuggestions = 
+                await _cacheRepository.GetAsync<QueryClientRequestDto>("suggestions");
+
+            if (cachedSuggestions.Count >= 3)
+            {
+                cachedSuggestions.Dequeue();
+            }
+            
+            cachedSuggestions.Enqueue(queryClientRequestDto);
+            await _cacheRepository.SetAsync(SuggestionsCacheKey, cachedSuggestions);
+        }
+    }
+
+    public async Task<GenericResponse<Queue<QueryClientRequestDto>>> GetLastThreeSearchQueries()
+    {
+        return new GenericResponse<Queue<QueryClientRequestDto>>()
+        {
+            Body = await _cacheRepository.GetAsync<QueryClientRequestDto>(SuggestionsCacheKey),
+            IsSuccessful = true
+        };
     }
 }
