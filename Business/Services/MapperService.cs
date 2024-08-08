@@ -103,4 +103,47 @@ public static class MapperService
             ZipCode = address.ZipCode
         };
     }
+
+    private static async Task<string> MapIFormFileProfileImageToFilePath(IFormFile? profilePhoto)
+    {
+        if (profilePhoto is null)
+        {
+            return string.Empty;
+        }
+
+        try
+        {
+            // Get the root path of the solution.
+            var rootPathOfApp = Path.GetFullPath("..");
+
+            // This is the name of the directory that will be created/used on the root path of the solution.
+            const string staticImagesDirectoryName = "profile_photos";
+
+            // This is the path from the root of the solution to the "static images" directory.
+            var staticImagesPath = $"{rootPathOfApp}/{staticImagesDirectoryName}";
+
+            // A new name for the image that will now be stored locally.
+            var imageNameWithExtensions = $"{Guid.NewGuid()}.{Path.GetExtension(profilePhoto.FileName)}";
+
+            // If the directory exists, do nothing. Otherwise, create it.
+            Directory.CreateDirectory(staticImagesPath);
+
+            // This is the complete path of the file with the extension starting from the root of the solution.
+            var pathToStoreTheFile = $"{staticImagesPath}/{imageNameWithExtensions}";
+
+            // Store the image locally to the determined path.
+            using (var stream = File.Create(pathToStoreTheFile))
+            {
+                await profilePhoto.CopyToAsync(stream);
+            }
+
+            return pathToStoreTheFile;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+
+            return string.Empty;
+        }
+    }
 }
