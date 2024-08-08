@@ -96,4 +96,33 @@ public class ClientService : IClientService
             };
         }
     }
+
+    public async Task<GenericResponse<List<QueryClientResponseDto>>> Query(QueryClientRequestDto queryClientRequestDto)
+    {
+        try
+        {
+            var clients = await _clientRepository.Query(queryClientRequestDto);
+            var result = new List<QueryClientResponseDto>();
+
+            foreach (var c in clients)
+            {
+                result.Add(MapperService.MapClientToQueryClientResponseDto(c));
+            }
+
+            return new GenericResponse<List<QueryClientResponseDto>>()
+            {
+                Body = result,
+                IsSuccessful = true
+            };
+        }
+        catch (Exception ex)
+        {
+            return new GenericResponse<List<QueryClientResponseDto>>()
+            {
+                Error = ex.Message,
+                IsSuccessful = false,
+                HttpCode = HttpStatusCode.InternalServerError
+            };
+        }
+    }
 }
