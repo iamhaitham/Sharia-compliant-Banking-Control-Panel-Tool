@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Core.DTOs.Client;
+using Core.Enums;
 using Infrastructure.Entities;
 using Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -105,6 +106,15 @@ public class ClientRepository : IClientRepository
         if (queryClientRequestDto.Take is not null && queryClientRequestDto.Take != 0)
         {
             query = query.Take((int)queryClientRequestDto.Take);
+        }
+
+        if (queryClientRequestDto.Sort == Sort.Ascending)
+        {
+            query = query.OrderBy(c => c.PersonalId);
+        }
+        else
+        {
+            query = query.OrderByDescending(c => c.PersonalId);
         }
         
         return await query.ToListAsync();
