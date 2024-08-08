@@ -2,9 +2,7 @@
 
 namespace Business.Validators.Interfaces;
 
-public interface IUserValidator
+public interface IUserValidator : IUniquenessValidator<RegisterUserRequestDto, RegisterUserResponseDto>
 {
-    public Task<ResponseDto<RegisterUserResponseDto>> IsUserUnique(RegisterUserRequestDto registerUserRequestDto);
-
     public Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto);
 }
