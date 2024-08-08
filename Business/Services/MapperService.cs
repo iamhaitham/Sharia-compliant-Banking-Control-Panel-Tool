@@ -3,6 +3,7 @@ using Core.DTOs.Address;
 using Core.DTOs.Client;
 using Core.DTOs.User;
 using Infrastructure.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace Business.Services;
 
@@ -48,7 +49,7 @@ public static class MapperService
         };
     }
 
-    public static Client MapRegisterClientRequestDtoToClient(
+    public static async Task<Client> MapRegisterClientRequestDtoToClient(
         RegisterClientRequestDto registerClientRequestDto
     )
     {
@@ -62,7 +63,7 @@ public static class MapperService
             MobileNumber = registerClientRequestDto.MobileNumber.Number,
             PersonalId = registerClientRequestDto.PersonalId,
             Address = MapAddressDtoToAddress(registerClientRequestDto.Address),
-            ProfilePhoto = registerClientRequestDto.ProfilePhoto,
+            ProfilePhoto = await MapIFormFileProfileImageToFilePath(registerClientRequestDto.ProfilePhoto),
             CreatedOn = DateTime.UtcNow
         };
     }
