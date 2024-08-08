@@ -18,7 +18,7 @@ public class ClientController : ControllerBase
         _clientService = clientService;
     }
 
-    [HttpPost("/register")]
+    [HttpPost("register")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
@@ -48,7 +48,7 @@ public class ClientController : ControllerBase
         }
     }
 
-    [HttpGet("/query")]
+    [HttpGet("query")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -72,7 +72,7 @@ public class ClientController : ControllerBase
         }
     }
 
-    [HttpGet("/suggestions")]
+    [HttpGet("suggestions")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<ActionResult<GenericResponse<Queue<QueryClientRequestDto>>>> GetLastThreeSearchQueries()
     {
