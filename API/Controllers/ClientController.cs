@@ -70,5 +70,12 @@ public class ClientController : ControllerBase
             default:
                 return Ok(genericResponse);
         }
-    } 
+    }
+
+    [HttpGet("/suggestions")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult<GenericResponse<Queue<QueryClientRequestDto>>>> GetLastThreeSearchQueries()
+    {
+        return Ok(await _clientService.GetLastThreeSearchQueries());
+    }
 }
