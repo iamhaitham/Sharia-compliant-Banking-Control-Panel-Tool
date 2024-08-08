@@ -1,4 +1,5 @@
-﻿using Core.DTOs.Client;
+﻿using Business.DTOs;
+using Core.DTOs.Client;
 using Core.Utilities;
 
 namespace Business.Services.Interfaces;

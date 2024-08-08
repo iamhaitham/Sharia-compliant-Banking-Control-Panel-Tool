@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Business.DTOs;
 using Business.Validators.Interfaces;
 using Core.DTOs.Client;
 using Core.Utilities;
