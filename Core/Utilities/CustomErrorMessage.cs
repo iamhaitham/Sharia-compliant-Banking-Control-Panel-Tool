@@ -27,6 +27,13 @@ public static class CustomErrorMessage
     ) =>
         $"A user with a similar personal id '{personalId}', email '{email}', or mobile number '{mobileNumber}' already exists. All these values must be unique for each user.";
     
+    public static string ClientAlreadyExists(
+        string personalId,
+        string email,
+        string mobileNumber
+    ) =>
+        $"A client with a similar personal id '{personalId}', email '{email}', or mobile number '{mobileNumber}' already exists. All these values must be unique for each client.";
+    
     public static string UserDoesNotExist(string email) =>
         $"User with email '{email}' does not exist";
 
