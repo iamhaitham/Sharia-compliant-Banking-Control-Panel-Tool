@@ -25,7 +25,7 @@ public class ClientController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<GenericResponse<RegisterClientResponseDto>>> Register(
-        RegisterClientRequestDto registerClientRequestDto
+        [FromForm] RegisterClientRequestDto registerClientRequestDto
     )
     {
         if (!ModelState.IsValid)
