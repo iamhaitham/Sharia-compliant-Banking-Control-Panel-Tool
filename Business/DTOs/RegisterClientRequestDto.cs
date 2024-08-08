@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Core.DTOs.Address;
 using Core.DTOs.Person;
+using Microsoft.AspNetCore.Http;
 
-namespace Core.DTOs.Client;
+namespace Business.DTOs;
 
 public class RegisterClientRequestDto : RegisterPersonRequestDto
 {
-    public string ProfilePhoto { get; set; } = string.Empty;
+    public IFormFile? ProfilePhoto { get; set; }
 
     public AddressDto Address { get; set; } = new();
     
