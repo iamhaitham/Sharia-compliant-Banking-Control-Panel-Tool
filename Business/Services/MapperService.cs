@@ -34,7 +34,7 @@ public static class MapperService
             LastName = registerUserRequestDto.LastName,
             MobileNumber = registerUserRequestDto.MobileNumber.Number,
             PersonalId = registerUserRequestDto.PersonalId,
-            CreatedOn = DateTimeOffset.Now
+            CreatedOn = DateTime.UtcNow
         };
     }
 
@@ -61,7 +61,23 @@ public static class MapperService
             MobileNumber = registerClientRequestDto.MobileNumber.Number,
             PersonalId = registerClientRequestDto.PersonalId,
             Address = MapAddressDtoToAddress(registerClientRequestDto.Address),
-            ProfilePhoto = registerClientRequestDto.ProfilePhoto
+            ProfilePhoto = registerClientRequestDto.ProfilePhoto,
+            CreatedOn = DateTime.UtcNow
+        };
+    }
+    
+    public static QueryClientResponseDto MapClientToQueryClientResponseDto(Client client)
+    {
+        return new QueryClientResponseDto()
+        {
+            Accounts = client.Accounts,
+            FirstName = client.FirstName,
+            LastName = client.LastName,
+            MobileNumber = client.MobileNumber,
+            PersonalId = client.PersonalId,
+            Address =  MapAddressToAddressDto(client.Address),
+            Sex = client.Sex,
+            Email = client.Email
         };
     }
 
@@ -73,6 +89,17 @@ public static class MapperService
             City = addressDto.City,
             Street = addressDto.Street,
             ZipCode = addressDto.ZipCode
+        };
+    }
+
+    private static AddressDto MapAddressToAddressDto(Address address)
+    {
+        return new AddressDto()
+        {
+            Country = address.Country,
+            City = address.City,
+            Street = address.Street,
+            ZipCode = address.ZipCode
         };
     }
 }
