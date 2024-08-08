@@ -16,5 +16,6 @@ public static class ServiceCollectionExtensions
         });
 
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
+        serviceCollection.AddScoped<IClientRepository, ClientRepository>();
     }
 }

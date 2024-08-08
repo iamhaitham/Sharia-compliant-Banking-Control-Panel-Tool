@@ -12,8 +12,11 @@ public static class ServiceCollectionExtensions
 {
     public static void AddBusiness(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        serviceCollection.AddScoped<IMobileNumberValidator, MobileNumberValidator>();
         serviceCollection.AddScoped<IUserService, UserService>();
+        serviceCollection.AddScoped<IClientService, ClientService>();
+
+        serviceCollection.AddScoped<IMobileNumberValidator, MobileNumberValidator>();
         serviceCollection.AddScoped<IUserValidator, UserValidator>();
+        serviceCollection.AddScoped<IClientValidator, ClientValidator>();
     }
 }
