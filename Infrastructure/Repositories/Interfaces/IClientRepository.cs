@@ -10,5 +10,5 @@ public interface IClientRepository
 
     public Task<Client?> GetByFilter(Expression<Func<Client, bool>> filter);
 
-    public List<Client> Query(QueryClientRequestDto queryClientRequestDto);
+    public Task<List<Client>> Query(QueryClientRequestDto queryClientRequestDto);
 }
