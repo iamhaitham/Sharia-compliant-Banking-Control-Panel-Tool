@@ -2,6 +2,7 @@
 using Business.Services.Interfaces;
 using Business.Validators.Interfaces;
 using Core.DTOs;
+using Core.Utilities;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Business.Services;
@@ -26,7 +27,7 @@ public class ClientService : IClientService
         _addressValidator = addressValidator;
     }
 
-    public async Task<ResponseDto<RegisterClientResponseDto>> Register(
+    public async Task<GenericResponse<RegisterClientResponseDto>> Register(
         RegisterClientRequestDto registerClientRequestDto
     )
     {
@@ -45,9 +46,9 @@ public class ClientService : IClientService
 
         if (!isAddressUniqueResponse.IsSuccessful)
         {
-            return new ResponseDto<RegisterClientResponseDto>()
+            return new GenericResponse<RegisterClientResponseDto>()
             {
-                Errors = isAddressUniqueResponse.Errors,
+                Error = isAddressUniqueResponse.Error,
                 IsSuccessful = isAddressUniqueResponse.IsSuccessful,
                 HttpCode = isAddressUniqueResponse.HttpCode
             };
@@ -67,12 +68,9 @@ public class ClientService : IClientService
             }
             catch (Exception ex)
             {
-                return new ResponseDto<RegisterClientResponseDto>()
+                return new GenericResponse<RegisterClientResponseDto>()
                 {
-                    Errors = new List<string>()
-                    {
-                        ex.Message
-                    },
+                    Error = ex.Message,
                     IsSuccessful = false,
                     HttpCode = HttpStatusCode.InternalServerError
                 };
@@ -83,19 +81,16 @@ public class ClientService : IClientService
         {
             await _clientRepository.Create(client);
 
-            return new ResponseDto<RegisterClientResponseDto>()
+            return new GenericResponse<RegisterClientResponseDto>()
             {
                 IsSuccessful = true
             };
         }
         catch (Exception ex)
         {
-            return new ResponseDto<RegisterClientResponseDto>()
+            return new GenericResponse<RegisterClientResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    ex.Message
-                },
+                Error = ex.Message,
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.InternalServerError
             };

@@ -22,7 +22,7 @@ public class UserController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<ResponseDto<RegisterUserResponseDto>>> Register(
+    public async Task<ActionResult<GenericResponse<RegisterUserResponseDto>>> Register(
         RegisterUserRequestDto registerUserRequestDto
     )
     {
@@ -50,7 +50,7 @@ public class UserController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<ResponseDto<LoginUserResponseDto>>> Login(
+    public async Task<ActionResult<GenericResponse<LoginUserResponseDto>>> Login(
         LoginUserRequestDto loginUserRequestDto
     )
     {

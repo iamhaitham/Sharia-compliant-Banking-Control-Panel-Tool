@@ -16,7 +16,7 @@ public class UserValidator : IUserValidator
         _userRepository = userRepository;
     }
 
-    public async Task<ResponseDto<RegisterUserResponseDto>> IsUnique(RegisterUserRequestDto registerUserRequestDto)
+    public async Task<GenericResponse<RegisterUserResponseDto>> IsUnique(RegisterUserRequestDto registerUserRequestDto)
     {
         User? userFromDatabase;
         try
@@ -29,12 +29,9 @@ public class UserValidator : IUserValidator
         }
         catch (Exception ex)
         {
-            return new ResponseDto<RegisterUserResponseDto>()
+            return new GenericResponse<RegisterUserResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    ex.Message
-                },
+                Error = ex.Message,
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.InternalServerError
             };
@@ -44,28 +41,25 @@ public class UserValidator : IUserValidator
 
         if (!isUserUnique)
         {
-            return new ResponseDto<RegisterUserResponseDto>()
+            return new GenericResponse<RegisterUserResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    CustomErrorMessage.UserAlreadyExists(
-                        registerUserRequestDto.PersonalId,
-                        registerUserRequestDto.Email,
-                        registerUserRequestDto.MobileNumber.Number
-                    )
-                },
+                Error = CustomErrorMessage.UserAlreadyExists(
+                    registerUserRequestDto.PersonalId,
+                    registerUserRequestDto.Email,
+                    registerUserRequestDto.MobileNumber.Number
+                ),
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.Conflict
             };
         }
 
-        return new ResponseDto<RegisterUserResponseDto>()
+        return new GenericResponse<RegisterUserResponseDto>()
         {
             IsSuccessful = true
         };
     }
 
-    public async Task<ResponseDto<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)
+    public async Task<GenericResponse<LoginUserResponseDto>> CanUserBeAuthenticated(LoginUserRequestDto loginUserRequestDto)
     {
         User? userFromDatabase;
 
@@ -75,12 +69,9 @@ public class UserValidator : IUserValidator
         }
         catch (Exception ex)
         {
-            return new ResponseDto<LoginUserResponseDto>()
+            return new GenericResponse<LoginUserResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    ex.Message
-                },
+                Error = ex.Message,
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.InternalServerError
             };
@@ -89,12 +80,9 @@ public class UserValidator : IUserValidator
         // If no user exists with the same email address, then there is nothing to check and the user cannot be authenticated.
         if (userFromDatabase is null)
         {
-            return new ResponseDto<LoginUserResponseDto>()
+            return new GenericResponse<LoginUserResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    CustomErrorMessage.UserDoesNotExist(loginUserRequestDto.Email)
-                },
+                Error = CustomErrorMessage.UserDoesNotExist(loginUserRequestDto.Email),
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.NotFound
             };
@@ -103,18 +91,15 @@ public class UserValidator : IUserValidator
         // If user exists, check whether the hash of the password they entered matches with the hashed one in the database.
         if (!BCrypt.Net.BCrypt.Verify(loginUserRequestDto.Password, userFromDatabase.PasswordHash))
         {
-            return new ResponseDto<LoginUserResponseDto>()
+            return new GenericResponse<LoginUserResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    CustomErrorMessage.UserInfoDidNotMatch()
-                },
+                Error = CustomErrorMessage.UserInfoDidNotMatch(),
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.Unauthorized
             };
         }
         
-        return new ResponseDto<LoginUserResponseDto>()
+        return new GenericResponse<LoginUserResponseDto>()
         {
             Body = new LoginUserResponseDto(),
             IsSuccessful = true

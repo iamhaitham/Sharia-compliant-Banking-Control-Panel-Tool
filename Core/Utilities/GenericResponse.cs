@@ -1,14 +1,14 @@
 ﻿using System.Net;
 
-namespace Core.DTOs;
+namespace Core.Utilities;
 
-public class ResponseDto<T> 
+public class GenericResponse<T> 
 {
     public T? Body { get; init; }
 
     public bool IsSuccessful { get; init; }
 
-    public List<string>? Errors { get; init; }
+    public string? Error { get; init; }
     
     public HttpStatusCode? HttpCode { get; init; }
 }

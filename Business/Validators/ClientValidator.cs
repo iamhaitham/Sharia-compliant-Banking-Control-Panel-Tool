@@ -16,7 +16,7 @@ public class ClientValidator : IClientValidator
         _clientRepository = clientRepository;
     }
 
-    public async Task<ResponseDto<RegisterClientResponseDto>> IsUnique(
+    public async Task<GenericResponse<RegisterClientResponseDto>> IsUnique(
         RegisterClientRequestDto registerClientRequestDto
     )
     {
@@ -32,12 +32,9 @@ public class ClientValidator : IClientValidator
         }
         catch (Exception ex)
         {
-            return new ResponseDto<RegisterClientResponseDto>()
+            return new GenericResponse<RegisterClientResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    ex.Message
-                },
+                Error = ex.Message,
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.InternalServerError
             };
@@ -47,22 +44,19 @@ public class ClientValidator : IClientValidator
 
         if (!isClientUnique)
         {
-            return new ResponseDto<RegisterClientResponseDto>()
+            return new GenericResponse<RegisterClientResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    CustomErrorMessage.ClientAlreadyExists(
-                        registerClientRequestDto.PersonalId,
-                        registerClientRequestDto.Email,
-                        registerClientRequestDto.MobileNumber.Number
-                    )
-                },
+                Error = CustomErrorMessage.ClientAlreadyExists(
+                    registerClientRequestDto.PersonalId,
+                    registerClientRequestDto.Email,
+                    registerClientRequestDto.MobileNumber.Number
+                ),
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.Conflict
             };
         }
 
-        return new ResponseDto<RegisterClientResponseDto>()
+        return new GenericResponse<RegisterClientResponseDto>()
         {
             IsSuccessful = true
         };

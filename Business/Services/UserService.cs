@@ -2,6 +2,7 @@
 using Business.Services.Interfaces;
 using Business.Validators.Interfaces;
 using Core.DTOs;
+using Core.Utilities;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Business.Services;
@@ -28,8 +29,8 @@ public class UserService : IUserService
     /// If no, register the user.
     /// </summary>
     /// <param name="registerUserRequestDto">The DTO representing the data for registering a user.</param>
-    /// <returns>A <see cref="RegisterUserResponseDto">RegisterUserResponseDto</see> wrapped in a <see cref="RegisterUserResponseDto">ResponseDto</see></returns>
-    public async Task<ResponseDto<RegisterUserResponseDto>> Register(
+    /// <returns>A <see cref="RegisterUserResponseDto">RegisterUserResponseDto</see> wrapped in a <see cref="GenericResponse">GenericResponse</see>.</returns>
+    public async Task<GenericResponse<RegisterUserResponseDto>> Register(
         RegisterUserRequestDto registerUserRequestDto
     )
     {
@@ -47,7 +48,7 @@ public class UserService : IUserService
         {
             await _userRepository.Create(user);
             
-            return new ResponseDto<RegisterUserResponseDto>()
+            return new GenericResponse<RegisterUserResponseDto>()
             {
                 Body = MapperService.MapUserToRegisterUserResponseDto(user),
                 IsSuccessful = true
@@ -55,12 +56,9 @@ public class UserService : IUserService
         }
         catch (Exception ex)
         {
-            return new ResponseDto<RegisterUserResponseDto>()
+            return new GenericResponse<RegisterUserResponseDto>()
             {
-                Errors = new List<string>()
-                {
-                    ex.Message
-                },
+                Error = ex.Message,
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.InternalServerError
             };
@@ -71,8 +69,8 @@ public class UserService : IUserService
     /// Authenticates a user if possible.
     /// </summary>
     /// <param name="loginUserRequestDto">The DTO representing the data for logging a user in.</param>
-    /// <returns>A <see cref="LoginUserResponseDto">LoginUserResponseDto</see> wrapped in a <see cref="RegisterUserResponseDto">ResponseDto</see></returns>
-    public async Task<ResponseDto<LoginUserResponseDto>> Login(
+    /// <returns>A <see cref="LoginUserResponseDto">LoginUserResponseDto</see> wrapped in a <see cref="GenericResponse">GenericResponse</see>.</returns>
+    public async Task<GenericResponse<LoginUserResponseDto>> Login(
         LoginUserRequestDto loginUserRequestDto
     )
     {

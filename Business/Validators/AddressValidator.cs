@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Business.Validators.Interfaces;
 using Core.DTOs;
+using Core.Utilities;
 using Infrastructure.Entities;
 using Infrastructure.Repositories.Interfaces;
 
@@ -15,7 +16,7 @@ public class AddressValidator : IAddressValidator
         _addressRepository = addressRepository;
     }
 
-    public async Task<ResponseDto<Address>> IsUnique(AddressDto requestDto)
+    public async Task<GenericResponse<Address>> IsUnique(AddressDto requestDto)
     {
         Address? addressFromDatabase;
 
@@ -30,12 +31,9 @@ public class AddressValidator : IAddressValidator
         }
         catch (Exception ex)
         {
-            return new ResponseDto<Address>()
+            return new GenericResponse<Address>()
             {
-                Errors = new List<string>()
-                {
-                    ex.Message
-                },
+                Error = ex.Message,
                 IsSuccessful = false,
                 HttpCode = HttpStatusCode.InternalServerError
             };
@@ -43,7 +41,7 @@ public class AddressValidator : IAddressValidator
 
         if (addressFromDatabase is not null)
         {
-            return new ResponseDto<Address>()
+            return new GenericResponse<Address>()
             {
                 Body = addressFromDatabase,
                 IsSuccessful = true,
@@ -51,7 +49,7 @@ public class AddressValidator : IAddressValidator
             };
         }
         
-        return new ResponseDto<Address>()
+        return new GenericResponse<Address>()
         {
             IsSuccessful = true
         };

@@ -1,8 +1,9 @@
 ﻿using Core.DTOs;
+using Core.Utilities;
 
 namespace Business.Validators.Interfaces;
 
 public interface IUniquenessValidator<TRequestDto, TResponseDto>
 {
-    public Task<ResponseDto<TResponseDto>> IsUnique(TRequestDto requestDto);
+    public Task<GenericResponse<TResponseDto>> IsUnique(TRequestDto requestDto);
 }

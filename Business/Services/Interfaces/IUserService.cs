@@ -1,10 +1,11 @@
 ﻿using Core.DTOs;
+using Core.Utilities;
 
 namespace Business.Services.Interfaces;
 
 public interface IUserService
 {
-    public Task<ResponseDto<RegisterUserResponseDto>> Register(RegisterUserRequestDto registerUserRequestDto);
+    public Task<GenericResponse<RegisterUserResponseDto>> Register(RegisterUserRequestDto registerUserRequestDto);
     
-    public Task<ResponseDto<LoginUserResponseDto>> Login(LoginUserRequestDto loginUserRequestDto);
+    public Task<GenericResponse<LoginUserResponseDto>> Login(LoginUserRequestDto loginUserRequestDto);
 }

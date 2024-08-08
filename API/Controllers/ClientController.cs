@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Business.Services.Interfaces;
 using Core.DTOs;
+using Core.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -22,7 +23,7 @@ public class ClientController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<ResponseDto<RegisterClientResponseDto>>> Register(
+    public async Task<ActionResult<GenericResponse<RegisterClientResponseDto>>> Register(
         RegisterClientRequestDto registerClientRequestDto
     )
     {
