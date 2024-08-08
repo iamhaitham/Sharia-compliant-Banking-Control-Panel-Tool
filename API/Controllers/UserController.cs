@@ -31,16 +31,16 @@ public class UserController : ControllerBase
             return BadRequest();
         }
 
-        var responseDto = await _userService.Register(registerUserRequestDto);
+        var genericResponse = await _userService.Register(registerUserRequestDto);
 
-        switch (responseDto.HttpCode)
+        switch (genericResponse.HttpCode)
         {
             case HttpStatusCode.Conflict:
-                return Conflict(responseDto);
+                return Conflict(genericResponse);
             case HttpStatusCode.InternalServerError:
-                return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
+                return StatusCode(StatusCodes.Status500InternalServerError, genericResponse);
             default:
-                return Ok(responseDto);
+                return Ok(genericResponse);
         }
     }
 
@@ -59,18 +59,18 @@ public class UserController : ControllerBase
             return BadRequest();
         }
         
-        var responseDto = await _userService.Login(loginUserRequestDto);
+        var genericResponse = await _userService.Login(loginUserRequestDto);
 
-        switch (responseDto.HttpCode)
+        switch (genericResponse.HttpCode)
         {
             case HttpStatusCode.Unauthorized:
-                return Unauthorized(responseDto);
+                return Unauthorized(genericResponse);
             case HttpStatusCode.NotFound:
-                return NotFound(responseDto);
+                return NotFound(genericResponse);
             case HttpStatusCode.InternalServerError:
-                return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
+                return StatusCode(StatusCodes.Status500InternalServerError, genericResponse);
             default:
-                return Ok(responseDto);
+                return Ok(genericResponse);
         }
     }
 }
