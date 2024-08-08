@@ -33,18 +33,42 @@ public class ClientController : ControllerBase
             return BadRequest();
         }
 
-        var responseDto = await _clientService.Register(registerClientRequestDto);
+        var genericResponse = await _clientService.Register(registerClientRequestDto);
 
-        switch (responseDto.HttpCode)
+        switch (genericResponse.HttpCode)
         {
             case HttpStatusCode.Forbidden:
-                return StatusCode(StatusCodes.Status403Forbidden, responseDto);
+                return StatusCode(StatusCodes.Status403Forbidden, genericResponse);
             case HttpStatusCode.Conflict:
-                return Conflict(responseDto);
+                return Conflict(genericResponse);
             case HttpStatusCode.InternalServerError:
-                return StatusCode(StatusCodes.Status500InternalServerError, responseDto);
+                return StatusCode(StatusCodes.Status500InternalServerError, genericResponse);
             default:
-                return Ok(responseDto);
+                return Ok(genericResponse);
         }
     }
+
+    [HttpGet("/query")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<ActionResult<GenericResponse<List<QueryClientResponseDto>>>> Query(
+        [FromQuery] QueryClientRequestDto queryClientRequestDto
+    )
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        var genericResponse = await _clientService.Query(queryClientRequestDto);
+
+        switch (genericResponse.HttpCode)
+        {
+            case HttpStatusCode.InternalServerError:
+                return StatusCode(StatusCodes.Status500InternalServerError, genericResponse);
+            default:
+                return Ok(genericResponse);
+        }
+    } 
 }
