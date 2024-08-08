@@ -15,6 +15,8 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
 
+        serviceCollection.AddDistributedMemoryCache();
+
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
         serviceCollection.AddScoped<IClientRepository, ClientRepository>();
         serviceCollection.AddScoped<IAddressRepository, AddressRepository>();
