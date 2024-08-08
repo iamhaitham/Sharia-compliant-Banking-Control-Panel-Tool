@@ -29,7 +29,9 @@ public class UserService : IUserService
     /// </summary>
     /// <param name="registerUserRequestDto">The DTO representing the data for registering a user.</param>
     /// <returns>A <see cref="RegisterUserResponseDto">RegisterUserResponseDto</see> wrapped in a <see cref="RegisterUserResponseDto">ResponseDto</see></returns>
-    public async Task<ResponseDto<RegisterUserResponseDto>> Register(RegisterUserRequestDto registerUserRequestDto)
+    public async Task<ResponseDto<RegisterUserResponseDto>> Register(
+        RegisterUserRequestDto registerUserRequestDto
+    )
     {
         var isUserUniqueResponse = await _userValidator.IsUserUnique(registerUserRequestDto);
         if (!isUserUniqueResponse.IsSuccessful)
@@ -70,7 +72,9 @@ public class UserService : IUserService
     /// </summary>
     /// <param name="loginUserRequestDto">The DTO representing the data for logging a user in.</param>
     /// <returns>A <see cref="LoginUserResponseDto">LoginUserResponseDto</see> wrapped in a <see cref="RegisterUserResponseDto">ResponseDto</see></returns>
-    public async Task<ResponseDto<LoginUserResponseDto>> Login(LoginUserRequestDto loginUserRequestDto)
+    public async Task<ResponseDto<LoginUserResponseDto>> Login(
+        LoginUserRequestDto loginUserRequestDto
+    )
     {
         return await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
     } 
