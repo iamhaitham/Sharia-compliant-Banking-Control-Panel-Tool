@@ -55,7 +55,7 @@ public static class MapperService
     {
         return new Client()
         {
-            Accounts = registerClientRequestDto.Accounts,
+            Accounts = MapAccountsFromRegisterClientRequestDtoToAccountEntity(registerClientRequestDto.Accounts),
             Email = registerClientRequestDto.Email,
             Sex = registerClientRequestDto.Sex,
             FirstName = registerClientRequestDto.FirstName,
@@ -72,7 +72,7 @@ public static class MapperService
     {
         return new QueryClientResponseDto()
         {
-            Accounts = client.Accounts,
+            Accounts = MapAccountEntityToAccountFromQueryClientResponseDto(client.Accounts),
             FirstName = client.FirstName,
             LastName = client.LastName,
             MobileNumber = client.MobileNumber,
@@ -146,5 +146,36 @@ public static class MapperService
 
             return string.Empty;
         }
+    }
+
+    private static ICollection<Account> MapAccountsFromRegisterClientRequestDtoToAccountEntity(
+        List<string> accountsFromRegisterClientRequestDto
+    )
+    {
+        List<Account> accounts = new();
+
+        foreach (var accountNumber in accountsFromRegisterClientRequestDto)
+        {
+            accounts.Add(new Account()
+            {
+                AccountNumber = accountNumber
+            });
+        }
+
+        return accounts;
+    }
+
+    private static List<string> MapAccountEntityToAccountFromQueryClientResponseDto(
+        ICollection<Account> accounts
+    )
+    {
+        List<string> accountsFromQueryClientResponseDto = new();
+
+        foreach (var account in accounts)
+        {
+            accountsFromQueryClientResponseDto.Add(account.AccountNumber);
+        }
+
+        return accountsFromQueryClientResponseDto;
     }
 }

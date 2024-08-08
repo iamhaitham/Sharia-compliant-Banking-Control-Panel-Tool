@@ -94,7 +94,7 @@ public class ClientRepository : IClientRepository
         {
             foreach (var account in queryClientRequestDto.Accounts)
             {
-                query = query.Where(c => c.Accounts.Any(a => a == account));
+                query = query.Where(c => c.Accounts.Any(a => a.AccountNumber == account));
             }
         }
 

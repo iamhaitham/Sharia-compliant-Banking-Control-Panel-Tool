@@ -6,5 +6,5 @@ public class Client : Person
 
     public Address Address { get; set; } = new();
     
-    public required List<string> Accounts { get; set; }
+    public required ICollection<Account> Accounts { get; set; }
 }
