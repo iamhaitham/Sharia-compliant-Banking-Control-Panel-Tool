@@ -44,7 +44,7 @@ public class ClientService : IClientService
             return isClientUniqueResponse;
         }
         
-        var client = MapperService.MapRegisterClientRequestDtoToClient(registerClientRequestDto);
+        var client = await MapperService.MapRegisterClientRequestDtoToClient(registerClientRequestDto);
 
         // Validate whether the address already exists or not, and only create it if it does not exist yet (unique).
         var isAddressUniqueResponse = await _addressValidator.IsUnique(registerClientRequestDto.Address);
