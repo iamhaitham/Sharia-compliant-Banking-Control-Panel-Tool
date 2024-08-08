@@ -22,7 +22,9 @@ public class UserController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<ResponseDto<RegisterUserResponseDto>>> Register(RegisterUserRequestDto registerUserRequestDto)
+    public async Task<ActionResult<ResponseDto<RegisterUserResponseDto>>> Register(
+        RegisterUserRequestDto registerUserRequestDto
+    )
     {
         if (!ModelState.IsValid)
         {
@@ -48,7 +50,9 @@ public class UserController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<ActionResult<ResponseDto<LoginUserResponseDto>>> Login(LoginUserRequestDto loginUserRequestDto)
+    public async Task<ActionResult<ResponseDto<LoginUserResponseDto>>> Login(
+        LoginUserRequestDto loginUserRequestDto
+    )
     {
         if (!ModelState.IsValid)
         {
