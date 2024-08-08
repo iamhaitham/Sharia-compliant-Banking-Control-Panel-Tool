@@ -1,10 +1,5 @@
 using System.Text.Json.Serialization;
 using Business;
-using Business.Services;
-using Business.Services.Interfaces;
-using Business.Validators;
-using Business.Validators.Interfaces;
-using Core.Interfaces;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
