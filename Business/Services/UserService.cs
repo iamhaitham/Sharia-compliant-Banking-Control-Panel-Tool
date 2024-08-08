@@ -33,7 +33,7 @@ public class UserService : IUserService
         RegisterUserRequestDto registerUserRequestDto
     )
     {
-        var isUserUniqueResponse = await _userValidator.IsUserUnique(registerUserRequestDto);
+        var isUserUniqueResponse = await _userValidator.IsUnique(registerUserRequestDto);
         if (!isUserUniqueResponse.IsSuccessful)
         {
             return isUserUniqueResponse;

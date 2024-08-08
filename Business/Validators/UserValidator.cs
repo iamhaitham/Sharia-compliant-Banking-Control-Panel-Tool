@@ -16,7 +16,7 @@ public class UserValidator : IUserValidator
         _userRepository = userRepository;
     }
 
-    public async Task<ResponseDto<RegisterUserResponseDto>> IsUserUnique(RegisterUserRequestDto registerUserRequestDto)
+    public async Task<ResponseDto<RegisterUserResponseDto>> IsUnique(RegisterUserRequestDto registerUserRequestDto)
     {
         User? userFromDatabase;
         try
