@@ -44,4 +44,34 @@ public static class MapperService
             PasswordHash = user.PasswordHash
         };
     }
+
+    public static Client MapRegisterClientRequestDtoToClient(
+        RegisterClientRequestDto registerClientRequestDto
+    )
+    {
+        return new Client()
+        {
+            Accounts = registerClientRequestDto.Accounts,
+            Email = registerClientRequestDto.Email,
+            Sex = registerClientRequestDto.Sex,
+            FirstName = registerClientRequestDto.FirstName,
+            LastName = registerClientRequestDto.LastName,
+            MobileNumber = registerClientRequestDto.MobileNumber.Number,
+            PersonalId = registerClientRequestDto.PersonalId,
+            Address = MapAddressDtoToAddress(registerClientRequestDto.Address),
+            ProfilePhoto = registerClientRequestDto.ProfilePhoto
+        };
+    }
+
+    private static Address MapAddressDtoToAddress(AddressDto addressDto)
+    {
+        return new Address()
+        {
+            Country = addressDto.Country,
+            City = addressDto.City,
+            Street = addressDto.Street,
+            ZipCode = addressDto.ZipCode,
+            CreatedOn = DateTimeOffset.Now
+        };
+    }
 }
