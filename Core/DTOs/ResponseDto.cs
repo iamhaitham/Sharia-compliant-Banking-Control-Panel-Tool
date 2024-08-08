@@ -4,11 +4,11 @@ namespace Core.DTOs;
 
 public class ResponseDto<T> 
 {
-    public T? Body { get; set; }
+    public T? Body { get; init; }
 
-    public bool IsSuccessful { get; set; }
+    public bool IsSuccessful { get; init; }
 
-    public List<string>? Errors { get; set; }
+    public List<string>? Errors { get; init; }
     
-    public HttpStatusCode? HttpCode { get; set; }
+    public HttpStatusCode? HttpCode { get; init; }
 }
