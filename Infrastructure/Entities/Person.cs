@@ -24,4 +24,6 @@ public class Person : BaseEntity
     
     [Required]
     public Sex Sex { get; set; }
+    
+    public DateTimeOffset CreatedOn { get; set; }
 }

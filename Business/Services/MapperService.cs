@@ -70,8 +70,7 @@ public static class MapperService
             Country = addressDto.Country,
             City = addressDto.City,
             Street = addressDto.Street,
-            ZipCode = addressDto.ZipCode,
-            CreatedOn = DateTimeOffset.Now
+            ZipCode = addressDto.ZipCode
         };
     }
 }
