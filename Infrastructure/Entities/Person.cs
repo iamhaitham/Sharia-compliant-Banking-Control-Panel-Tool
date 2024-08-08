@@ -22,8 +22,7 @@ public class Person : BaseEntity
     [Required]
     public string PersonalId { get; set; } = string.Empty;
     
-    [Required]
-    public Sex Sex { get; set; }
+    public Sex? Sex { get; set; }
     
-    public DateTimeOffset CreatedOn { get; set; }
+    public DateTime CreatedOn { get; set; }
 }
