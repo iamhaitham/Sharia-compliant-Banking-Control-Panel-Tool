@@ -5,7 +5,7 @@ namespace Business.Services;
 
 public static class MapperService
 {
-    public static RegisterUserRequestDto MapMapRegisterUserRequestDtoToACopy(RegisterUserRequestDto registerUserRequestDto)
+    public static RegisterUserRequestDto MapRegisterUserRequestDtoToACopy(RegisterUserRequestDto registerUserRequestDto)
     {
         return new RegisterUserRequestDto()
         {

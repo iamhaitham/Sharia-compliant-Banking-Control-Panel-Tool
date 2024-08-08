@@ -37,7 +37,7 @@ public class UserService : IUserService
             return isUserUniqueResponse;
         }
 
-        var updatedDto = MapperService.MapMapRegisterUserRequestDtoToACopy(registerUserRequestDto);
+        var updatedDto = MapperService.MapRegisterUserRequestDtoToACopy(registerUserRequestDto);
         updatedDto.Password = BCrypt.Net.BCrypt.HashPassword(registerUserRequestDto.Password);
         var user = MapperService.MapRegisterUserRequestDtoToUser(updatedDto);
 
