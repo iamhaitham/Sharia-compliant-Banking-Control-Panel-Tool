@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "a80f9294-8c95-42a1-a794-79b91b1b1070",
+		"name": "Banking Control Panel Tool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34437572"
+	},
+	"item": [
+		{
+			"name": "1. Register a normal user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"mobileNumber\": {\r\n        \"number\": \"0599000000\",\r\n        \"region\": \"PS\"\r\n    },\r\n    \"personalId\": \"12345678910\",\r\n    \"sex\": \"Male\",\r\n    \"password\": \"tesT@123\",\r\n    \"role\": \"User\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5294/api/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Register an admin user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane.doe@example.com\",\r\n    \"mobileNumber\": {\r\n        \"number\": \"0599000001\",\r\n        \"region\": \"PS\"\r\n    },\r\n    \"personalId\": \"12345678911\",\r\n    \"sex\": \"Female\",\r\n    \"password\": \"tesT@456\",\r\n    \"role\": \"Admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5294/api/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Login the admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"jane.doe@example.com\",\r\n  \"password\": \"tesT@456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5294/api/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Register a client",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqYW5lLmRvZUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIzMzI0NzI0fQ.pyNgd0KdAsFH3lVlwwWWpMrRklCjr028yTnKevwV07E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "LastName",
+							"value": "Doe",
+							"type": "text"
+						},
+						{
+							"key": "Address.City",
+							"value": "Nablus",
+							"type": "text"
+						},
+						{
+							"key": "Accounts",
+							"value": "account_1",
+							"type": "text"
+						},
+						{
+							"key": "Sex",
+							"value": "Male",
+							"type": "text"
+						},
+						{
+							"key": "ProfilePhoto",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "postman-cloud:///1ef5695c-fdeb-4690-8672-742bcb875a7c"
+						},
+						{
+							"key": "MobileNumber.Number",
+							"value": "0599999995",
+							"type": "text"
+						},
+						{
+							"key": "Address.ZipCode",
+							"value": "P123",
+							"type": "text"
+						},
+						{
+							"key": "MobileNumber.Region",
+							"value": "PS",
+							"type": "text"
+						},
+						{
+							"key": "FirstName",
+							"value": "Tim",
+							"type": "text"
+						},
+						{
+							"key": "PersonalId",
+							"value": "99988877744",
+							"type": "text"
+						},
+						{
+							"key": "Address.Country",
+							"value": "Palestine",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "tim.doe@example.com",
+							"type": "text"
+						},
+						{
+							"key": "Address.Street",
+							"value": "Faisal",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5294/api/Client/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"Client",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Query clients",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqYW5lLmRvZUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIzMzI0NzI0fQ.pyNgd0KdAsFH3lVlwwWWpMrRklCjr028yTnKevwV07E"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5294/api/Client/query?Skip=1&Take=2&Sort=Descending&LastName=Doe&Sex=Male&Accounts=account_2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"Client",
+						"query"
+					],
+					"query": [
+						{
+							"key": "Skip",
+							"value": "1"
+						},
+						{
+							"key": "Take",
+							"value": "2"
+						},
+						{
+							"key": "Sort",
+							"value": "Descending"
+						},
+						{
+							"key": "LastName",
+							"value": "Doe"
+						},
+						{
+							"key": "Sex",
+							"value": "Male"
+						},
+						{
+							"key": "Accounts",
+							"value": "account_2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get suggestions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqYW5lLmRvZUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzIzMzI0NzI0fQ.pyNgd0KdAsFH3lVlwwWWpMrRklCjr028yTnKevwV07E"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5294/api/Client/suggestions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"Client",
+						"suggestions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Login the normal user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"john.doe@example.com\",\r\n  \"password\": \"tesT@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5294/api/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Register a client",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MjMzMjU3NjZ9.MHsz_DyD6Xdl2715_DLSdrMyBeMGhiu3c3MFVLXxRfg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "LastName",
+							"value": "Doe",
+							"type": "text"
+						},
+						{
+							"key": "Address.City",
+							"value": "Nablus",
+							"type": "text"
+						},
+						{
+							"key": "Accounts",
+							"value": "account_1",
+							"type": "text"
+						},
+						{
+							"key": "Sex",
+							"value": "Male",
+							"type": "text"
+						},
+						{
+							"key": "ProfilePhoto",
+							"contentType": "image/jpeg",
+							"type": "file",
+							"src": "postman-cloud:///1ef5695c-fdeb-4690-8672-742bcb875a7c"
+						},
+						{
+							"key": "MobileNumber.Number",
+							"value": "0599999995",
+							"type": "text"
+						},
+						{
+							"key": "Address.ZipCode",
+							"value": "P123",
+							"type": "text"
+						},
+						{
+							"key": "MobileNumber.Region",
+							"value": "PS",
+							"type": "text"
+						},
+						{
+							"key": "FirstName",
+							"value": "Tim",
+							"type": "text"
+						},
+						{
+							"key": "PersonalId",
+							"value": "99988877744",
+							"type": "text"
+						},
+						{
+							"key": "Address.Country",
+							"value": "Palestine",
+							"type": "text"
+						},
+						{
+							"key": "Email",
+							"value": "tim.doe@example.com",
+							"type": "text"
+						},
+						{
+							"key": "Address.Street",
+							"value": "Faisal",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5294/api/Client/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"Client",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Query clients",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MjMzMjU3NjZ9.MHsz_DyD6Xdl2715_DLSdrMyBeMGhiu3c3MFVLXxRfg"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5294/api/Client/query?Skip=1&Take=2&Sort=Descending&LastName=Doe&Sex=Male&Accounts=account_2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"Client",
+						"query"
+					],
+					"query": [
+						{
+							"key": "Skip",
+							"value": "1"
+						},
+						{
+							"key": "Take",
+							"value": "2"
+						},
+						{
+							"key": "Sort",
+							"value": "Descending"
+						},
+						{
+							"key": "LastName",
+							"value": "Doe"
+						},
+						{
+							"key": "Sex",
+							"value": "Male"
+						},
+						{
+							"key": "Accounts",
+							"value": "account_2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Get suggestions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "text/plain"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3MjMzMjU3NjZ9.MHsz_DyD6Xdl2715_DLSdrMyBeMGhiu3c3MFVLXxRfg"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5294/api/Client/suggestions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5294",
+					"path": [
+						"api",
+						"Client",
+						"suggestions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
