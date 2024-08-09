@@ -18,7 +18,6 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IUserValidator _userValidator;
     private readonly IConfiguration _configuration;
-    private static readonly string JwtKeyFromAppSettings = "JWT";
 
     public UserService(
         IUserRepository userRepository,
@@ -118,7 +117,7 @@ public class UserService : IUserService
 
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(
-                _configuration[JwtKeyFromAppSettings]!
+                _configuration[AppSettingsJsonKeys.JwtKeyFromAppSettings]!
             )
         );
 

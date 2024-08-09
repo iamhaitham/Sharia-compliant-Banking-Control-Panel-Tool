@@ -1,4 +1,5 @@
-﻿using Infrastructure.Repositories;
+﻿using Core.Utilities;
+using Infrastructure.Repositories;
 using Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ public static class ServiceCollectionExtensions
     {
         serviceCollection.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            options.UseSqlServer(configuration.GetConnectionString(AppSettingsJsonKeys.DatabaseConnectionString));
         });
 
         serviceCollection.AddDistributedMemoryCache();

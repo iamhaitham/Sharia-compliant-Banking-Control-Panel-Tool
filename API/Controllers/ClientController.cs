@@ -3,12 +3,14 @@ using Business.DTOs;
 using Business.Services.Interfaces;
 using Core.DTOs.Client;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Admin")]
 public class ClientController : ControllerBase
 {
     private readonly IClientService _clientService;
@@ -51,6 +53,8 @@ public class ClientController : ControllerBase
     [HttpGet("query")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<ActionResult<GenericResponse<List<QueryClientResponseDto>>>> Query(
         [FromQuery] QueryClientRequestDto queryClientRequestDto
@@ -74,6 +78,8 @@ public class ClientController : ControllerBase
 
     [HttpGet("suggestions")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public async Task<ActionResult<GenericResponse<Queue<QueryClientRequestDto>>>> GetLastThreeSearchQueries()
     {
         return Ok(await _clientService.GetLastThreeSearchQueries());

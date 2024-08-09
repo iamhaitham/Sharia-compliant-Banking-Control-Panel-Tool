@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using API;
 using Business;
 using Infrastructure;
 
@@ -12,7 +13,8 @@ builder.Services
 builder.Services.AddBusiness(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSecurityToSwagger();
+builder.Services.AddCustomizedJwtAuthorization(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,6 +26,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
