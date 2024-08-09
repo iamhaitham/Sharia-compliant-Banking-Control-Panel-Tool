@@ -38,7 +38,9 @@ public class ClientRepository : IClientRepository
     /// <returns>A list of the clients that satisfy the conditions of the query.</returns>
     public async Task<List<Client>> Query(QueryClientRequestDto queryClientRequestDto)
     {
-        IQueryable<Client> query = _dbSet.Include(c => c.Address);
+        IQueryable<Client> query = _dbSet
+            .Include(c => c.Address)
+            .Include(c => c.Accounts);
         
         if (!string.IsNullOrWhiteSpace(queryClientRequestDto.FirstName))
         {
