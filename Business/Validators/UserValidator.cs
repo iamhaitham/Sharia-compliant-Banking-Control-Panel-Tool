@@ -101,7 +101,11 @@ public class UserValidator : IUserValidator
         
         return new GenericResponse<LoginUserResponseDto>()
         {
-            Body = new LoginUserResponseDto(),
+            Body = new LoginUserResponseDto()
+            {
+                Email = userFromDatabase.Email,
+                Role = userFromDatabase.Role
+            },
             IsSuccessful = true
         };
     }

@@ -1,9 +1,15 @@
-﻿using System.Net;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
 using Business.Services.Interfaces;
 using Business.Validators.Interfaces;
 using Core.DTOs.User;
+using Core.Enums;
 using Core.Utilities;
 using Infrastructure.Repositories.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Business.Services;
 
@@ -11,14 +17,18 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserValidator _userValidator;
+    private readonly IConfiguration _configuration;
+    private static readonly string JwtKeyFromAppSettings = "JWT";
 
     public UserService(
         IUserRepository userRepository,
-        IUserValidator userValidator
+        IUserValidator userValidator,
+        IConfiguration configuration
     )
     {
         _userRepository = userRepository;
         _userValidator = userValidator;
+        _configuration = configuration;
     }
 
     /// <summary>
@@ -74,6 +84,57 @@ public class UserService : IUserService
         LoginUserRequestDto loginUserRequestDto
     )
     {
-        return await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
-    } 
+        var loginUserResponseDto = await _userValidator.CanUserBeAuthenticated(loginUserRequestDto);
+
+        if (!loginUserResponseDto.IsSuccessful)
+        {
+            return new GenericResponse<LoginUserResponseDto>()
+            {
+                Error = loginUserResponseDto.Error,
+                IsSuccessful = loginUserResponseDto.IsSuccessful,
+                HttpCode = loginUserResponseDto.HttpCode
+            };
+        }
+
+        return new GenericResponse<LoginUserResponseDto>()
+        {
+            Body = new LoginUserResponseDto()
+            {
+                Email = loginUserResponseDto.Body!.Email,
+                Jwt = CreateToken(loginUserResponseDto.Body),
+                Role = loginUserResponseDto.Body.Role
+            },
+            IsSuccessful = true
+        };
+    }
+
+    private string CreateToken(LoginUserResponseDto loginUserResponseDto)
+    {
+        var claims = new List<Claim>()
+        {
+            new Claim(ClaimTypes.Email, loginUserResponseDto.Email),
+            new Claim(ClaimTypes.Role, Enum.GetName(typeof(UserRole), loginUserResponseDto.Role)!)
+        };
+
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(
+                _configuration[JwtKeyFromAppSettings]!
+            )
+        );
+
+        var credentials = new SigningCredentials(
+            key,
+            SecurityAlgorithms.HmacSha256Signature
+        );
+
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.Now.AddDays(1),
+            signingCredentials: credentials 
+        );
+
+        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+        
+        return jwt;
+    }
 }
